@@ -78,7 +78,7 @@ function sendForm()
                 if (move_uploaded_file($_FILES['myfile']['tmp_name'][$ct], $uploadfile)) {
                     $mail->addAttachment($uploadfile, $filename);
                 } else {
-                    $msg .= 'Неудалось прикрепить файл '.$uploadfile;
+                    $body .= 'Неудалось прикрепить файл '.$uploadfile;
                 }
             }
         }
