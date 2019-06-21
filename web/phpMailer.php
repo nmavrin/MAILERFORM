@@ -8,10 +8,11 @@
  * Time: 00:16
  */
 
+require '../vendor/autoload.php';
 
-require PHPMailer\PHPMailer\PHPMailer::class;
-require PHPMailer\PHPMailer\SMTP::class;
-require \PHPMailer\PHPMailer\Exception::class;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 // Защита от спама скрытое поле - в форму добавить input
 //<input id="check" name="check" type="hidden" value="" />
@@ -25,7 +26,7 @@ sendForm();
 function sendForm()
 {
     // new PHP mailer
-    $mail = new \PHPMailer\PHPMailer\PHPMailer();
+    $mail = new PHPMailer();
 
     try {
 
@@ -52,6 +53,9 @@ function sendForm()
             return;
         }
 
+        var_dump($_POST);
+        die;
+
         $msg = "ok";
         $mail->isSMTP();
         $mail->CharSet = "UTF-8";
@@ -59,15 +63,14 @@ function sendForm()
 
         //Настраиваем почту для отправки через SMTP на хостинге - читаем description.md
         $mail->Host = 'smtp.gmail.com'; // SMTP сервера
-        $mail->Username = 'login'; // Логин на почте
-        $mail->Password = 'password'; // Пароль на почте
+        $mail->Username = 'darvintest@gmail.com'; // Логин на почте
+        $mail->Password = 'ds2010vkls'; // Пароль на почте
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
         $mail->setFrom('no-reply@domain.com', 'no-reply'); // Адрес самой почты
 
         // Получатель письма - кто будет получать письма
-        $mail->addAddress('man1@yandex.ru');
-        $mail->addAddress('man2@yandex.ru');
+        $mail->addAddress('mavrinnick@gmail.com');
         // если нужно добавить еще добавляем addAddress $mail->addAddress('newMan@yandex.ru');
 
         // Прикрипление файлов к письму
@@ -91,6 +94,28 @@ function sendForm()
         $mail->Subject = 'Заявка с сайта';
         $mail->Body = $body;
 
+        if (isset($body['lang']) )
+        {
+            if ($mail->send())
+            {
+                switch ($body['lang'])
+                {
+                    case 'ru':
+                        echo "<div class=\"c-form-success\"><div class=\"c-form-success__icon\"><i class=\"c-icon c-icon-success\"></i></div><div class=\"c-form-success__title\">' . 'Ваше сообщение успешно отправлено' . '</div></div>";
+                        break;
+                    case 'en':
+                        echo "<div class=\"c-form-success\"><div class=\"c-form-success__icon\"><i class=\"c-icon c-icon-success\"></i></div><div class=\"c-form-success__title\">' . 'Ваше сообщение успешно отправлено' . '</div></div>";
+                        break;
+                    case 'ar':
+                        echo "<div class=\"c-form-success\"><div class=\"c-form-success__icon\"><i class=\"c-icon c-icon-success\"></i></div><div class=\"c-form-success__title\">' . 'Ваше сообщение успешно отправлено' . '</div></div>";
+                        break;
+                    default:
+                        echo "<div class=\"c-form-success\"><div class=\"c-form-success__icon\"><i class=\"c-icon c-icon-success\"></i></div><div class=\"c-form-success__title\">' . 'Ваше сообщение успешно отправлено' . '</div></div>";
+                        break;
+                }
+            }
+
+        }
 
         // Проверяем отравленность сообщения
         if ($mail->send()) {
