@@ -43,7 +43,7 @@ function sendForm()
                     $_POST[$key] = $value;
                     $value = str_replace("\r", "", $value);
                     $value = str_replace("\n", "<br>", $value);
-                    $body[$key] = $value;
+                    $body .= !empty($value) ?  '<div>'.$key.' : '.$value.'</div><br>' : $body;
                 }
             }
 
@@ -53,8 +53,6 @@ function sendForm()
             return;
         }
 
-        var_dump($_POST);
-        die;
 
         $msg = "ok";
         $mail->isSMTP();
