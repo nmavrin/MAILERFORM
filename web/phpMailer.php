@@ -31,6 +31,7 @@ function sendForm()
     try {
 
         $body = [];
+        $bodyArray = [];
 
         if (isset($_SESSION['csrf_token']) && $_SESSION['csrf_token'] == @$_POST['csrf_token']) { // Если нужна защита CSRF
             //обрабатываем полученные переменные.
@@ -44,6 +45,8 @@ function sendForm()
                     $value = str_replace("\r", "", $value);
                     $value = str_replace("\n", "<br>", $value);
                     $body .= !empty($value) ?  '<div>'.$key.' : '.$value.'</div><br>' : $body;
+                    $bodyArray[$key] = $value;
+
                 }
             }
 
@@ -92,11 +95,11 @@ function sendForm()
         $mail->Subject = 'Заявка с сайта';
         $mail->Body = $body;
 
-        if (isset($body['lang']) )
+        if (isset($bodyArray['lang']) )
         {
             if ($mail->send())
             {
-                switch ($body['lang'])
+                switch ($bodyArray['lang'])
                 {
                     case 'ru':
                         echo "<div class=\"c-form-success\"><div class=\"c-form-success__icon\"><i class=\"c-icon c-icon-success\"></i></div><div class=\"c-form-success__title\">' . 'Ваше сообщение успешно отправлено' . '</div></div>";
