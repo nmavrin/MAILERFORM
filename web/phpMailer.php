@@ -64,8 +64,8 @@ function sendForm()
 
         //Настраиваем почту для отправки через SMTP на хостинге - читаем description.md
         $mail->Host = 'smtp.gmail.com'; // SMTP сервера
-        $mail->Username = 'darvintest@gmail.com'; // Логин на почте
-        $mail->Password = 'ds2010vkls'; // Пароль на почте
+        $mail->Username = 'admin@gmail.com'; // Логин на почте
+        $mail->Password = 'password'; // Пароль на почте
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
         $mail->setFrom('no-reply@domain.com', 'no-reply'); // Адрес самой почты
